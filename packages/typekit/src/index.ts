@@ -1,4 +1,5 @@
-export * from "./pipe/implementation";
+export * from "./dual";
+export * from "./pipe";
 
-export * from "./option/implementation";
-export * from "./result/implementation";
+export * from "./option";
+export * from "./result";
