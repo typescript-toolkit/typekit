@@ -107,11 +107,11 @@ describe("result", () => {
     expect(mappedErr).toBe(errValue);
   });
 
-  test("flatMapError()", () => {
+  test("flatMapErr()", () => {
     const okValue: Result.Result<number, string> = Result.ok(2);
     const errValue: Result.Result<number, string> = Result.err("error");
 
-    const flatMapErrFn = Result.flatMapError((error: string) => Result.err<number, string>(`${error}!`));
+    const flatMapErrFn = Result.flatMapErr((error: string) => Result.err<number, string>(`${error}!`));
 
     const mappedOk = flatMapErrFn(okValue);
     const mappedErr = flatMapErrFn(errValue);

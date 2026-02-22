@@ -58,7 +58,7 @@ export function flatMap<T1, E, T2>(onOk: (value: T1) => Result<T2, E>) {
   };
 }
 
-export function flatMapError<T, E1, E2>(onErr: (error: E1) => Result<T, E2>) {
+export function flatMapErr<T, E1, E2>(onErr: (error: E1) => Result<T, E2>) {
   return function (result: Result<T, E1>) {
     return result._tag === "ok" ? result : onErr(result.error);
   };
