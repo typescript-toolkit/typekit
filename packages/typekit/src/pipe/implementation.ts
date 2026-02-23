@@ -1962,7 +1962,7 @@ export function pipe<T1>(x1: T1, ...args: readonly ((xn: unknown) => unknown)[])
 }
 
 const pipeableObject = {
-  pipe(...args: readonly ((xn: unknown) => unknown)[]) {
+  pipe(this: unknown, ...args: readonly ((xn: unknown) => unknown)[]) {
     return pipe(this, ...args);
   },
 };
@@ -1971,10 +1971,22 @@ type PipeableObject = {
   pipe: typeof pipeableObject.pipe;
 };
 
-export function pipeable<WithoutPipe extends object>(
-  object: WithoutPipe & {
+export function pipeable<T extends object>(
+  object: T & {
     pipe?: never;
   },
-): WithoutPipe & PipeableObject {
-  return Object.assign<WithoutPipe & PipeableObject, WithoutPipe>(Object.create(pipeableObject), object);
+): T & PipeableObject {
+  if (!Object.isExtensible(object)) {
+    throw new TypeError("pipeable: object is not extensible");
+  }
+  if ("pipe" in object) {
+    throw new TypeError("pipeable: object already has 'pipe'");
+  }
+
+  return Object.defineProperty(object, "pipe", {
+    value: pipeableObject.pipe,
+    writable: false,
+    enumerable: false,
+    configurable: false,
+  }) as T & PipeableObject;
 }
