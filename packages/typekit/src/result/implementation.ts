@@ -72,6 +72,17 @@ export const unwrapErrOr: {
   return result._tag === "ok" ? defaultError : result.error;
 });
 
+export const expect: {
+  <T, E>(result: Result<T, E>, message: string): T;
+  (message: string): <T, E>(result: Result<T, E>) => T;
+} = dual(2, function <T, E>(result: Result<T, E>, message: string): T {
+  if (result._tag === "err") {
+    throw new Error(message);
+  }
+
+  return result.value;
+});
+
 export function flatten<T, E>(result: Result<Result<T, E>, E>) {
   return result._tag === "ok" ? result.value : result;
 }
