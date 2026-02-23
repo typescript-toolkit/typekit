@@ -47,7 +47,7 @@ describe("result", () => {
 
     expect(value).toBe(1);
 
-    expect(() => Result.unwrap(errValue)).toThrow();
+    expect(() => Result.unwrap(errValue)).toThrow(Error);
   });
 
   test("unwrapOr()", () => {
@@ -69,7 +69,7 @@ describe("result", () => {
 
     expect(error).toBe("error");
 
-    expect(() => Result.unwrapErr(okValue)).toThrow();
+    expect(() => Result.unwrapErr(okValue)).toThrow(Error);
   });
 
   test("unwrapErrOr()", () => {
@@ -81,6 +81,28 @@ describe("result", () => {
 
     expect(value1).toBe("not error");
     expect(value2).toBe("error");
+  });
+
+  test("expect() - data first", () => {
+    const okValue = Result.ok(1);
+    const errValue = Result.err("error");
+
+    const value = Result.expect(okValue, "ERROR");
+
+    expect(value).toBe(1);
+
+    expect(() => Result.expect(errValue, "ERROR")).toThrow("ERROR");
+  });
+
+  test("expect() - data last", () => {
+    const okValue = Result.ok(1);
+    const errValue = Result.err("error");
+
+    const value = Result.expect("ERROR")(okValue);
+
+    expect(value).toBe(1);
+
+    expect(() => Result.expect("ERROR")(errValue)).toThrow("ERROR");
   });
 
   test("flatten()", () => {
