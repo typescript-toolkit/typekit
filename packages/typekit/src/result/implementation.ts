@@ -42,7 +42,7 @@ export function isErr<T, E>(result: Result<T, E>): result is Err<E> {
   return result._tag === "err";
 }
 
-export function unwrap<T, E>(result: Result<T, E>) {
+export function unwrap<T, E>(result: Result<T, E>): T {
   if (result._tag === "err") {
     throw new Error(`Cannot unwrap Err value: ${String(result.error)}`);
   }
@@ -57,7 +57,7 @@ export const unwrapOr: {
   return result._tag === "ok" ? result.value : defaultValue;
 });
 
-export function unwrapErr<T, E>(result: Result<T, E>) {
+export function unwrapErr<T, E>(result: Result<T, E>): E {
   if (result._tag === "ok") {
     throw new Error(`Cannot unwrapErr Ok value: ${String(result.value)}`);
   }
@@ -68,7 +68,7 @@ export function unwrapErr<T, E>(result: Result<T, E>) {
 export const unwrapErrOr: {
   <T, E>(result: Result<T, E>, defaultError: E): E;
   <E>(defaultError: E): <T>(result: Result<T, E>) => E;
-} = dual(2, function <T, E>(result: Result<T, E>, defaultError: E) {
+} = dual(2, function <T, E>(result: Result<T, E>, defaultError: E): E {
   return result._tag === "ok" ? defaultError : result.error;
 });
 
@@ -83,7 +83,7 @@ export const expect: {
   return result.value;
 });
 
-export function flatten<T, E>(result: Result<Result<T, E>, E>) {
+export function flatten<T, E>(result: Result<Result<T, E>, E>): Result<T, E> {
   return result._tag === "ok" ? result.value : result;
 }
 
@@ -121,7 +121,7 @@ export const biMap: {
       onOk: (value: T1) => T2;
       onErr: (error: E1) => E2;
     },
-  ) {
+  ): Result<T2, E2> {
     return result._tag === "ok" ? ok(func.onOk(result.value)) : err(func.onErr(result.error));
   },
 );
@@ -129,14 +129,14 @@ export const biMap: {
 export const flatMap: {
   <T1, E, T2>(result: Result<T1, E>, onOk: (value: T1) => Result<T2, E>): Result<T2, E>;
   <T1, E, T2>(onOk: (value: T1) => Result<T2, E>): (result: Result<T1, E>) => Result<T2, E>;
-} = dual(2, function <T1, E, T2>(result: Result<T1, E>, onOk: (value: T1) => Result<T2, E>) {
+} = dual(2, function <T1, E, T2>(result: Result<T1, E>, onOk: (value: T1) => Result<T2, E>): Result<T2, E> {
   return result._tag === "ok" ? onOk(result.value) : result;
 });
 
 export const flatMapErr: {
   <T, E1, E2>(result: Result<T, E1>, onErr: (error: E1) => Result<T, E2>): Result<T, E2>;
   <T, E1, E2>(onErr: (error: E1) => Result<T, E2>): (result: Result<T, E1>) => Result<T, E2>;
-} = dual(2, function <T, E1, E2>(result: Result<T, E1>, onErr: (error: E1) => Result<T, E2>) {
+} = dual(2, function <T, E1, E2>(result: Result<T, E1>, onErr: (error: E1) => Result<T, E2>): Result<T, E2> {
   return result._tag === "ok" ? result : onErr(result.error);
 });
 
