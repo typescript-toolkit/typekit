@@ -1,1 +1,2 @@
 export * as Result from "./implementation";
+export { ok, err, isOk, isErr, unwrap, unwrapOr, unwrapErr, unwrapErrOr, expect, flatten, map, mapErr, biMap, flatMap, flatMapErr, biFlatMap } from "./implementation";
