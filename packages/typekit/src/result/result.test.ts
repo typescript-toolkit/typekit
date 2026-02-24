@@ -360,4 +360,17 @@ describe("result", () => {
 
     expect(matchedErr).toBe(2);
   });
+
+  test("result.pipe()", () => {
+    const result = Result.ok(1).pipe(
+      Result.map((v) => v + 1),
+      Result.flatMap((v) => Result.ok(v * 2)),
+      Result.map((v) => v + 1),
+    );
+
+    expect(result._tag).toBe("ok");
+    if (Result.isOk(result)) {
+      expect(result.value).toBe(5);
+    }
+  });
 });
