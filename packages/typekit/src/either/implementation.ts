@@ -30,7 +30,7 @@ export function isRight<LeftType, RightType>(either: Either<LeftType, RightType>
 
 export function unwrapLeft<LeftType, RightType>(either: Either<LeftType, RightType>): LeftType {
   if (either._tag === "right") {
-    throw new Error(`Cannot unwrapLeft right value: ${either}`);
+    throw new Error(`Cannot unwrapLeft right value: ${String(either.right)}`);
   }
 
   return either.left;
@@ -45,7 +45,7 @@ export const unwrapLeftOr: {
 
 export function unwrapRight<LeftType, RightType>(either: Either<LeftType, RightType>): RightType {
   if (either._tag === "left") {
-    throw new Error(`Cannot unwrapRight left value: ${either}`);
+    throw new Error(`Cannot unwrapRight left value: ${String(either.left)}`);
   }
 
   return either.right;
