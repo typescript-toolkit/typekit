@@ -20,9 +20,11 @@
   "exports": {
     ".": "./dist/index.mjs",
     "./dual": "./dist/dual/index.mjs",
+    "./either": "./dist/either/index.mjs",
     "./option": "./dist/option/index.mjs",
     "./pipe": "./dist/pipe/index.mjs",
     "./result": "./dist/result/index.mjs",
+    "./tagged": "./dist/tagged/index.mjs",
     "./package.json": "./package.json"
   },
   "scripts": {
