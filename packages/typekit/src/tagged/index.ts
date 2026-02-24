@@ -1,2 +1,2 @@
 export * as Tagged from "./implementation";
-export { tagged } from "./implementation";
+export { taggedMutate, tagged } from "./implementation";

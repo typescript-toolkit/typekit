@@ -17,6 +17,33 @@ describe("Tagged", () => {
     expect(value.value).toBe(1);
   });
 
+  test("taggedMutate() - data first", () => {
+    type Tag = "Tagged";
+    interface TaggedType extends Tagged.Tagged<Tag> {
+      value: number;
+    }
+
+    const value: TaggedType = Tagged.taggedMutate({ value: 1 }, "Tagged");
+
+    expect(value._tag).toBe("Tagged");
+    expect(value.value).toBe(1);
+  });
+
+  test("taggedMutate() - data last", () => {
+    type Tag = "Tagged";
+    interface TaggedType extends Tagged.Tagged<Tag> {
+      value: number;
+    }
+
+    // const value: TaggedType = Tagged.tagged("Tagged")({ value: 1 });
+    const value: TaggedType = Tagged.taggedMutate("Tagged")({
+      value: 1,
+    });
+
+    expect(value._tag).toBe("Tagged");
+    expect(value.value).toBe(1);
+  });
+
   test("tagged() - data first", () => {
     type Tag = "Tagged";
     interface TaggedType extends Tagged.Tagged<Tag> {
