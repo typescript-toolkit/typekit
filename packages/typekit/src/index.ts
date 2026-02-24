@@ -1,7 +1,7 @@
-export * from "./tagged";
-export * from "./dual";
-export * from "./pipe";
+export { Tagged, tagged } from "./tagged";
+export { Dual, dual } from "./dual";
+export { Pipe, type Pipeable, pipeable } from "./pipe";
 
-export * from "./option";
-export * from "./result";
-export * from "./either";
+export { Option } from "./option";
+export { Result } from "./result";
+export { Either } from "./either";
