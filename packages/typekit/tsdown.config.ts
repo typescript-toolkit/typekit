@@ -8,6 +8,7 @@ export default defineConfig({
     // Export basic building blocks for application development
     // "./src/prelude.ts",
 
+    "./src/types/index.ts",
     "./src/tagged/index.ts",
     "./src/dual/index.ts",
     "./src/pipe/index.ts",

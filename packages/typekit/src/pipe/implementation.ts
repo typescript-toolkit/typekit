@@ -1984,9 +1984,11 @@ export function pipeable<T extends object>(
   }
 
   return Object.defineProperty(object, "pipe", {
-    value: pipeableObject.pipe,
+    value: function (this: unknown, ...args: readonly ((xn: unknown) => unknown)[]) {
+      return pipe(this, ...args);
+    },
     writable: false,
     enumerable: false,
     configurable: false,
-  }) as T & PipeableObject;
+  }) as T & Pipeable;
 }

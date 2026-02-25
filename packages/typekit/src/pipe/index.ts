@@ -1,2 +1,4 @@
 export * as Pipe from "./implementation";
-export { pipe, pipeable, type Pipeable } from "./implementation";
+
+export * from "./implementation";
+export type { Pipeable } from "./implementation";

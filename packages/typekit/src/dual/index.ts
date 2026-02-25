@@ -1,2 +1,3 @@
-export { dual } from "./implementation";
 export * as Dual from "./implementation";
+
+export * from "./implementation";

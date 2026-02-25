@@ -1,4 +1,4 @@
-export { Tagged, tagged } from "./tagged";
+export { Tagged, tagged, taggedMutate } from "./tagged";
 export { Dual, dual } from "./dual";
 export { Pipe, type Pipeable, pipeable } from "./pipe";
 

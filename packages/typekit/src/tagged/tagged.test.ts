@@ -35,7 +35,6 @@ describe("Tagged", () => {
       value: number;
     }
 
-    // const value: TaggedType = Tagged.tagged("Tagged")({ value: 1 });
     const value: TaggedType = Tagged.taggedMutate("Tagged")({
       value: 1,
     });
@@ -62,7 +61,6 @@ describe("Tagged", () => {
       value: number;
     }
 
-    // const value: TaggedType = Tagged.tagged("Tagged")({ value: 1 });
     const value: TaggedType = Tagged.tagged("Tagged")({
       value: 1,
     });

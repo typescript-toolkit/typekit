@@ -25,6 +25,7 @@
     "./pipe": "./dist/pipe/index.mjs",
     "./result": "./dist/result/index.mjs",
     "./tagged": "./dist/tagged/index.mjs",
+    "./types": "./dist/types/index.mjs",
     "./package.json": "./package.json"
   },
   "scripts": {

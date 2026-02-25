@@ -1,6 +1,6 @@
 import { dual } from "~/dual";
-import { pipeable, type Pipeable } from "~/pipe/implementation";
-import { tagged, type Tagged } from "~/tagged";
+import { type Pipeable, pipeable } from "~/pipe/implementation";
+import { Tagged, tagged } from "~/tagged";
 
 export interface Ok<T> extends Tagged.Tagged<"ok">, Pipeable {
   value: T;
