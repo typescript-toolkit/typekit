@@ -241,6 +241,121 @@ describe("either", () => {
     }
   });
 
+  test("apLeft() - data first", () => {
+    const leftValue = Either.left<number, string>(2);
+    const rightValue = Either.right<number, string>("value");
+
+    const apFn = (either: Either.Either<number, string>) => Either.left<number, string>(Either.unwrapLeft(either) * 2);
+
+    const mappedLeft = Either.apLeft(leftValue, apFn);
+    const mappedRight = Either.apLeft(rightValue, apFn);
+
+    expect(mappedLeft._tag).toBe("left");
+    if (Either.isLeft(mappedLeft)) {
+      expect(mappedLeft.left).toBe(4);
+    }
+    expect(mappedRight).toBe(rightValue);
+  });
+
+  test("apLeft() - data last", () => {
+    const leftValue = Either.left<number, string>(2);
+    const rightValue = Either.right<number, string>("value");
+
+    const apFn = Either.apLeft((either: Either.Either<number, string>) =>
+      Either.left<number, string>(Either.unwrapLeft(either) * 2),
+    );
+
+    const mappedLeft = apFn(leftValue);
+    const mappedRight = apFn(rightValue);
+
+    expect(mappedLeft._tag).toBe("left");
+    if (Either.isLeft(mappedLeft)) {
+      expect(mappedLeft.left).toBe(4);
+    }
+    expect(mappedRight).toBe(rightValue);
+  });
+
+  test("apRight() - data first", () => {
+    const leftValue = Either.left<number, string>(2);
+    const rightValue = Either.right<number, string>("value");
+
+    const apFn = (either: Either.Either<number, string>) =>
+      Either.right<number, string>(`${Either.unwrapRight(either)}!`);
+
+    const mappedLeft = Either.apRight(leftValue, apFn);
+    const mappedRight = Either.apRight(rightValue, apFn);
+
+    expect(mappedLeft).toBe(leftValue);
+    expect(mappedRight._tag).toBe("right");
+    if (Either.isRight(mappedRight)) {
+      expect(mappedRight.right).toBe("value!");
+    }
+  });
+
+  test("apRight() - data last", () => {
+    const leftValue = Either.left<number, string>(2);
+    const rightValue = Either.right<number, string>("value");
+
+    const apFn = Either.apRight((either: Either.Either<number, string>) =>
+      Either.right<number, string>(`${Either.unwrapRight(either)}!`),
+    );
+
+    const mappedLeft = apFn(leftValue);
+    const mappedRight = apFn(rightValue);
+
+    expect(mappedLeft).toBe(leftValue);
+    expect(mappedRight._tag).toBe("right");
+    if (Either.isRight(mappedRight)) {
+      expect(mappedRight.right).toBe("value!");
+    }
+  });
+
+  test("biAp() - data first", () => {
+    const leftValue = Either.left(2);
+    const rightValue = Either.right("value");
+
+    const apFn = {
+      onLeft: (either: Either.Either<number, string>) => Either.left<number, string>(Either.unwrapLeft(either) * 2),
+      onRight: (either: Either.Either<number, string>) =>
+        Either.right<number, string>(`${Either.unwrapRight(either)}!`),
+    };
+
+    const mappedLeft = Either.biAp(leftValue, apFn);
+    const mappedRight = Either.biAp(rightValue, apFn);
+
+    expect(mappedLeft._tag).toBe("left");
+    if (Either.isLeft(mappedLeft)) {
+      expect(mappedLeft.left).toBe(4);
+    }
+    expect(mappedRight._tag).toBe("right");
+    if (Either.isRight(mappedRight)) {
+      expect(mappedRight.right).toBe("value!");
+    }
+  });
+
+  test("biAp() - data last", () => {
+    const leftValue = Either.left(2);
+    const rightValue = Either.right("value");
+
+    const apFn = Either.biAp({
+      onLeft: (either: Either.Either<number, string>) => Either.left<number, string>(Either.unwrapLeft(either) * 2),
+      onRight: (either: Either.Either<number, string>) =>
+        Either.right<number, string>(`${Either.unwrapRight(either)}!`),
+    });
+
+    const mappedLeft = apFn(leftValue);
+    const mappedRight = apFn(rightValue);
+
+    expect(mappedLeft._tag).toBe("left");
+    if (Either.isLeft(mappedLeft)) {
+      expect(mappedLeft.left).toBe(4);
+    }
+    expect(mappedRight._tag).toBe("right");
+    if (Either.isRight(mappedRight)) {
+      expect(mappedRight.right).toBe("value!");
+    }
+  });
+
   test("flatMapLeft() - data first", () => {
     const leftValue: Either.Either<number, string> = Either.left(2);
     const rightValue: Either.Either<number, string> = Either.right("value");
