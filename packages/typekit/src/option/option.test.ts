@@ -218,4 +218,61 @@ describe("option", () => {
 
     expect(noneValue._tag).toBe("none");
   });
+
+  test("fromNullable()", () => {
+    const value = 1;
+    const nullValue = null;
+    const undefinedValue = undefined;
+
+    const fromValue = Option.fromNullable(value);
+    const fromNull = Option.fromNullable<number | null>(nullValue);
+    const fromUndefined = Option.fromNullable(undefinedValue);
+
+    expect(fromValue._tag).toBe("some");
+    if (Option.isSome(fromValue)) {
+      expect(fromValue.value).toBe(1);
+    }
+    expect(fromNull._tag).toBe("none");
+    expect(fromUndefined._tag).toBe("some");
+    if (Option.isSome(fromUndefined)) {
+      expect(fromUndefined.value).toBe(undefined);
+    }
+  });
+
+  test("fromOptional()", () => {
+    const value = 1;
+    const nullValue = null;
+    const undefinedValue = undefined;
+
+    const fromValue = Option.fromOptional(value);
+    const fromNull = Option.fromOptional(nullValue);
+    const fromUndefined = Option.fromOptional<number | undefined>(undefinedValue);
+
+    expect(fromValue._tag).toBe("some");
+    if (Option.isSome(fromValue)) {
+      expect(fromValue.value).toBe(1);
+    }
+    expect(fromNull._tag).toBe("some");
+    if (Option.isSome(fromNull)) {
+      expect(fromNull.value).toBe(null);
+    }
+    expect(fromUndefined._tag).toBe("none");
+  });
+
+  test("fromNullableOptional()", () => {
+    const value = 1;
+    const nullValue = null;
+    const undefinedValue = undefined;
+
+    const fromValue = Option.fromNullableOptional(value);
+    const fromNull = Option.fromNullableOptional<number | null>(nullValue);
+    const fromUndefined = Option.fromNullableOptional<number | undefined>(undefinedValue);
+
+    expect(fromValue._tag).toBe("some");
+    if (Option.isSome(fromValue)) {
+      expect(fromValue.value).toBe(1);
+    }
+    expect(fromNull._tag).toBe("none");
+    expect(fromUndefined._tag).toBe("none");
+  });
 });

@@ -1,7 +1,9 @@
 import { dual } from "~/dual";
+import { isNotNull, isNotNullOrUndefined, isNotUndefined } from "~/functions";
 import { HKT } from "~/hkt";
 import { type Pipeable, pipeable } from "~/pipe";
 import { tagged } from "~/tagged";
+import type { Nullable, Optional, RemoveNull, RemoveNullOrUndefined, RemoveUndefined } from "~/type";
 import { TypeClass } from "~/typeclass";
 
 export interface Some<T> extends Pipeable {
@@ -80,3 +82,17 @@ export const match: {
     return option._tag === "some" ? func.isSome(option.value) : func.isNone();
   },
 );
+
+export function fromNullable<T = unknown>(nullable: Nullable<T>): Option<RemoveNull<T>> {
+  return isNotNull(nullable) ? some(nullable) : none();
+}
+
+export function fromOptional<T = unknown>(optional: Optional<T>): Option<RemoveUndefined<T>> {
+  return isNotUndefined(optional) ? some(optional) : none();
+}
+
+export function fromNullableOptional<T = unknown>(
+  nullableOptional: T | null | undefined,
+): Option<RemoveNullOrUndefined<T>> {
+  return isNotNullOrUndefined(nullableOptional) ? some(nullableOptional) : none();
+}
